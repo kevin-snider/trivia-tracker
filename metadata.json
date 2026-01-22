@@ -1,0 +1,5 @@
+{
+  "name": "TriviaTracker",
+  "description": "A comprehensive trivia performance tracking app featuring a high-level dashboard, detailed stats, and a personalized 'Trivia Wrapped' summary with performance celebrations.",
+  "requestFramePermissions": []
+}

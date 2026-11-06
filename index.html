@@ -1,39 +1,32 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TriviaTracker - Quizspicalble Me!</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Trivia on Tap - Night Mode Bar Trivia Tracker</title>
+    <meta name="description" content="A sleek, mobile-optimized bar trivia companion with season tracking, tie-breaker analytics, pending place logging, and seasonal Trivia Wrapped." />
+    <meta property="og:title" content="Trivia on Tap" />
+    <meta property="og:description" content="A sleek, mobile-optimized bar trivia companion with season tracking and tie-breaker analytics." />
+    
+    <!-- Dancing Beer App Icon & Favicon -->
+    <link rel="icon" type="image/jpeg" href="/src/assets/images/dancing_beer_app_icon_1793982426751.jpg" />
+    <link rel="apple-touch-icon" href="/src/assets/images/dancing_beer_app_icon_1793982426751.jpg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Trivia on Tap" />
+    <meta name="theme-color" content="#09090b" />
+    
+    <!-- Plus Jakarta Sans Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <!-- Confetti FX -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #020617; /* Deepest Navy/Slate */
-        color: #f8fafc;
-      }
-      /* Custom selection color for the brand */
-      ::selection {
-        background-color: #facc15;
-        color: #1e3a8a;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
-  <body>
+    <link rel="stylesheet" href="/index.css">
+  </head>
+  <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-amber-500 selection:text-zinc-950">
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>

@@ -1,5 +1,6 @@
 {
-  "name": "TriviaTracker",
-  "description": "A comprehensive trivia performance tracking app featuring a high-level dashboard, detailed stats, and a personalized 'Trivia Wrapped' summary with performance celebrations.",
-  "requestFramePermissions": []
+  "name": "Trivia on Tap",
+  "description": "A sleek, nocturnal bar trivia score tracking application with tie-breaker analytics, pending place logging, and seasonal Trivia Wrapped.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

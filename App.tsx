@@ -174,6 +174,10 @@ export const App: React.FC = () => {
             wrappedYear={wrappedStatus.year || currentYear}
             onOpenWrapped={() => setIsWrappedOpen(true)}
             onNavigateToHistory={() => setActiveTab('history')}
+            onOpenLogGame={() => {
+              setEditingGame(null);
+              setIsLogModalOpen(true);
+            }}
           />
         ) : (
           <HistoryView

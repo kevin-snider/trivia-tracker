@@ -34,6 +34,7 @@ export interface ArchivedSeason {
 export interface LeagueSlot {
   gameNumber: number;
   game?: TriviaGame;
+  dateLabel?: string;
 }
 
 export interface LeagueStats {

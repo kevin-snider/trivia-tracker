@@ -147,10 +147,23 @@ export const getStats = (games: TriviaGame[]): TriviaStats => {
 
   // ================= 6-GAME LEAGUE STATS =================
   // Official league games exclude 'one-off' exhibitions, sorted chronologically
-  const leagueOfficialGames = games
+  const allOfficialGames = games
     .filter(g => g.seasonType !== 'one-off')
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .slice(0, GAMES_PER_LEAGUE);
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  // Determine the current active 6-game league:
+  // For the active season, the current league cycle is Games 1-5 from Oct 7 to Nov 4, 2026.
+  let leagueOfficialGames: TriviaGame[] = [];
+  const oct7Index = allOfficialGames.findIndex(g => g.date === '2026-10-07');
+  if (oct7Index !== -1) {
+    leagueOfficialGames = allOfficialGames.slice(oct7Index, oct7Index + GAMES_PER_LEAGUE);
+  } else if (allOfficialGames.length > 0) {
+    const remainder = allOfficialGames.length % GAMES_PER_LEAGUE;
+    const startIndex = remainder === 0
+      ? Math.max(0, allOfficialGames.length - GAMES_PER_LEAGUE)
+      : allOfficialGames.length - remainder;
+    leagueOfficialGames = allOfficialGames.slice(startIndex, startIndex + GAMES_PER_LEAGUE);
+  }
 
   const leagueTotalPoints = leagueOfficialGames.reduce((acc, g) => acc + g.score, 0);
   const leagueGamesPlayed = leagueOfficialGames.length;
@@ -164,10 +177,26 @@ export const getStats = (games: TriviaGame[]): TriviaStats => {
   const leagueWins = leagueOfficialGames.filter(g => g.place === 1).length;
   const isComplete = leagueGamesPlayed >= GAMES_PER_LEAGUE;
 
-  const gameSlots: LeagueSlot[] = Array.from({ length: GAMES_PER_LEAGUE }, (_, i) => ({
-    gameNumber: i + 1,
-    game: leagueOfficialGames[i]
-  }));
+  const gameSlots: LeagueSlot[] = Array.from({ length: GAMES_PER_LEAGUE }, (_, i) => {
+    const slotGame = leagueOfficialGames[i];
+    let dateLabel: string | undefined;
+    if (slotGame) {
+      try {
+        const d = new Date(slotGame.date + 'T12:00:00');
+        dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } catch {
+        dateLabel = slotGame.date;
+      }
+    } else if (i === leagueGamesPlayed) {
+      dateLabel = 'Game 6';
+    }
+
+    return {
+      gameNumber: i + 1,
+      game: slotGame,
+      dateLabel
+    };
+  });
 
   const league: LeagueStats = {
     gamesInLeague: GAMES_PER_LEAGUE,

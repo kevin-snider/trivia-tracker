@@ -27,6 +27,7 @@ interface AnalyticsViewProps {
   wrappedYear: number;
   onOpenWrapped: () => void;
   onNavigateToHistory: () => void;
+  onOpenLogGame?: () => void;
 }
 
 export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
@@ -35,7 +36,8 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
   wrappedActive,
   wrappedYear,
   onOpenWrapped,
-  onNavigateToHistory
+  onNavigateToHistory,
+  onOpenLogGame
 }) => {
   const { league } = stats;
 
@@ -106,7 +108,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
               <h2 className="text-sm font-black text-zinc-100 tracking-tight flex items-center gap-1.5">
                 Official League Season
               </h2>
-              <p className="text-[11px] text-zinc-400">Standard 6-game championship qualification run</p>
+              <p className="text-[11px] text-zinc-400">Current 6-game championship session · Oct 7 to Nov 4</p>
             </div>
           </div>
 
@@ -126,7 +128,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
         {/* 6-Game Progress Bar */}
         <div className="space-y-1.5">
           <div className="flex justify-between text-[11px] font-semibold text-zinc-400">
-            <span>League Season Progress</span>
+            <span>Current League Progress</span>
             <span className="font-mono text-zinc-200">{Math.round((league.leagueGamesPlayed / 6) * 100)}%</span>
           </div>
           <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
@@ -146,34 +148,55 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
             return (
               <div
                 key={slot.gameNumber}
-                className={`p-2.5 rounded-xl border text-center transition-all ${
+                className={`p-2 sm:p-2.5 rounded-xl border text-center transition-all ${
                   played
                     ? isWin
                       ? 'bg-amber-500/15 border-amber-500/50 text-amber-200 shadow-sm'
                       : 'bg-zinc-800/80 border-zinc-700/80 text-zinc-200'
-                    : 'bg-zinc-950/40 border-zinc-800/60 border-dashed text-zinc-600'
+                    : slot.gameNumber === league.leagueGamesPlayed + 1
+                      ? 'bg-indigo-500/10 border-indigo-500/40 border-dashed text-zinc-400'
+                      : 'bg-zinc-950/40 border-zinc-800/60 border-dashed text-zinc-600'
                 }`}
               >
-                <span className="text-[10px] font-bold uppercase tracking-wider block text-zinc-400">
-                  Game {slot.gameNumber}
-                </span>
+                <div className="flex items-center justify-between gap-1 mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                    G{slot.gameNumber}
+                  </span>
+                  {slot.dateLabel && (
+                    <span className="text-[9px] font-semibold text-zinc-400 truncate">
+                      {slot.dateLabel}
+                    </span>
+                  )}
+                </div>
                 
                 {played && slot.game ? (
-                  <div className="mt-1 space-y-0.5">
+                  <div className="space-y-0.5">
                     <span className="text-sm font-black font-mono block text-zinc-100">
                       {slot.game.score.toFixed(1)}
                     </span>
-                    <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded inline-block ${
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded inline-block ${
                       isWin 
                         ? 'bg-amber-500 text-zinc-950 font-black' 
                         : 'text-zinc-400 bg-zinc-700/50'
                     }`}>
-                      {slot.game.place ? `${slot.game.place === 1 ? '1st' : slot.game.place + 'th'}` : 'TBD'}
+                      {slot.game.place ? `${slot.game.place === 1 ? '1st 🥇' : slot.game.place === 2 ? '2nd 🥈' : slot.game.place === 3 ? '3rd 🥉' : slot.game.place + 'th'}` : 'TBD'}
                     </span>
                   </div>
                 ) : (
-                  <div className="mt-2 text-[10px] italic text-zinc-500">
-                    Upcoming
+                  <div className="mt-1">
+                    {slot.gameNumber === league.leagueGamesPlayed + 1 && onOpenLogGame ? (
+                      <button
+                        type="button"
+                        onClick={onOpenLogGame}
+                        className="text-[10px] font-bold px-1.5 py-1 rounded bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 w-full transition-colors flex items-center justify-center gap-0.5"
+                      >
+                        + Log
+                      </button>
+                    ) : (
+                      <div className="text-[10px] italic text-zinc-500 py-1">
+                        Upcoming
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
